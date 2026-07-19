@@ -29,8 +29,9 @@ export default async function handler(req, res) {
     if (raw.length > 100_000) return res.status(413).json({ error: "요청이 너무 큽니다" });
     const body = JSON.parse(raw);
 
-    // 메시지 수 제한(무한 누적 방지)
-    const messages = Array.isArray(body.messages) ? body.messages.slice(-40) : [];
+    // 주의: messages는 자르지 않는다. tool_call↔tool_result 짝을 끊으면 OpenAI가 400을 낸다.
+    // 입력 비용은 위 100KB 가드로, 출력 비용은 아래 max_tokens로 묶는다.
+    const messages = Array.isArray(body.messages) ? body.messages : [];
 
     // 안전: 모델 gpt-4o-mini 고정 + 출력 토큰 상한(비용 백스톱). chat/completions만 중계.
     const safeBody = {
