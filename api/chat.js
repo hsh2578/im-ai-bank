@@ -24,15 +24,22 @@ export default async function handler(req, res) {
   if (!key) return res.status(500).json({ error: "OPENAI_KEY 미설정 (Vercel 환경변수 확인)" });
 
   try {
-    const body = typeof req.body === "string" ? JSON.parse(req.body || "{}") : (req.body || {});
+    const raw = typeof req.body === "string" ? (req.body || "{}") : JSON.stringify(req.body || {});
+    // 과대요청 차단: 정상 요청은 수 KB. 100KB 넘으면 남용으로 보고 거절.
+    if (raw.length > 100_000) return res.status(413).json({ error: "요청이 너무 큽니다" });
+    const body = JSON.parse(raw);
 
-    // 안전: 모델은 서버에서 gpt-4o-mini로 고정(비용 상한), chat/completions만 중계.
+    // 메시지 수 제한(무한 누적 방지)
+    const messages = Array.isArray(body.messages) ? body.messages.slice(-40) : [];
+
+    // 안전: 모델 gpt-4o-mini 고정 + 출력 토큰 상한(비용 백스톱). chat/completions만 중계.
     const safeBody = {
       model: "gpt-4o-mini",
-      messages: body.messages,
+      messages,
       tools: body.tools,
       tool_choice: body.tool_choice,
       temperature: typeof body.temperature === "number" ? body.temperature : 0.4,
+      max_tokens: 1024,
     };
 
     const r = await fetch("https://api.openai.com/v1/chat/completions", {
