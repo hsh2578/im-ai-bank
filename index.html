@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iM AI · "찾을 수 없어요"라고 말하지 않는 은행</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- 자동시연 버튼 (말 없이 화면공유용) -->
+  <button class="demo-btn" id="demoBtn">▶ 자동시연</button>
+
+  <!-- ================= 모바일 폰 프레임 ================= -->
+  <div class="phone">
+    <div class="appbar">
+      <div class="logo"><span class="mark">iM</span> AI뱅크</div>
+      <div class="sub">프로토타입</div>
+    </div>
+
+    <div class="chat" id="chat">
+      <!-- 환영 화면 (첫 대화 전) -->
+      <div class="welcome" id="welcome">
+        <div class="wlogo">iM</div>
+        <h2>무엇이든 말씀하세요</h2>
+        <p>메뉴를 찾지 마세요. 사람에게 말하듯 하면 됩니다.</p>
+        <div class="examples">
+          <button class="ex" data-q="종부세 내야 하는데 무슨 서류 필요해?"><span class="k">📄 서류</span>종부세 내야 하는데 무슨 서류 필요해?</button>
+          <button class="ex" data-q="안 쓰는 카드 정리해줘"><span class="k">💳 카드</span>안 쓰는 카드 정리해줘</button>
+          <button class="ex" data-q="카드 명세서 엑셀로 뽑아줘"><span class="k">📊 명세서</span>카드 명세서 엑셀로 뽑아줘</button>
+          <button class="ex" data-q="넷플릭스 자동결제 그만하고 싶어"><span class="k">🔁 자동이체</span>넷플릭스 자동결제 그만하고 싶어</button>
+          <button class="ex" data-q="이사했는데 주소 바꿔줘"><span class="k">🏠 개인정보</span>이사했는데 주소 바꿔줘</button>
+          <button class="ex" data-q="손자한테 용돈 보내고 싶어"><span class="k">💸 이체</span>손자한테 용돈 보내고 싶어</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="inputbar">
+      <button class="mic" id="micBtn" title="음성">🎤</button>
+      <input id="userInput" placeholder="예: 세금 낼 때 뭐 필요하지?" autocomplete="off">
+      <button class="send" id="sendBtn">➤</button>
+    </div>
+
+    <!-- 지문 인증 모달 -->
+    <div class="auth-overlay" id="authOverlay">
+      <div class="auth-box">
+        <div class="fp" id="fpBtn">👆</div>
+        <h3 id="authTitle">지문을 눌러주세요</h3>
+        <p>실행은 기존 인증 그대로입니다.<br>AI는 준비까지만, 최종 실행은 본인이.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= 툴 호출 로그 패널 ================= -->
+  <div class="logpanel">
+    <h2>🔍 AI 판단 로그</h2>
+    <div class="desc">
+      이 패널이 핵심입니다. 미리 짜둔 대본이 아니라, <b style="color:#a8d91c">AI가 스스로 어떤 은행 기능(도구)을 호출할지 판단</b>하는 과정을 실시간으로 보여줍니다.<br>
+      <span style="color:#4a6663">— 심사위원이 아무 말이나 시켜도 반응합니다.</span>
+    </div>
+    <div id="log">
+      <div class="empty">대화를 시작하면<br>AI의 도구 호출이 여기 표시됩니다</div>
+    </div>
+  </div>
+
+  <!-- 배포 기본값: proxy 모드(키는 Vercel 함수에 숨김).
+       로컬 개발 시 config.local.js(gitignore)가 이 값을 openai 모드로 덮어씀. -->
+  <script>window.IM_CONFIG = {
+    mode: "proxy",
+    proxyUrl: "https://im-ai-bank-hsh2578.vercel.app/api/chat"
+  };</script>
+  <script src="config.local.js" onerror="console.info('config.local.js 없음 → 배포(proxy) 모드')"></script>
+
+  <!-- 스크립트: 순서 중요 -->
+  <script src="js/data.js"></script>
+  <script src="js/knowledge.js"></script>
+  <script src="js/tools.js"></script>
+  <script src="js/agent.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/demo.js"></script>
+  <script>document.getElementById("demoBtn").onclick = runDemo;</script>
+</body>
+</html>
