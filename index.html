@@ -65,9 +65,10 @@
 
   <!-- 배포 기본값: proxy 모드(키는 Vercel 함수에 숨김).
        로컬 개발 시 config.local.js(gitignore)가 이 값을 openai 모드로 덮어씀. -->
+  <!-- 절대주소로 두면 Vercel(같은 도메인)과 GitHub Pages(교차도메인) 양쪽에서 동작 -->
   <script>window.IM_CONFIG = {
     mode: "proxy",
-    proxyUrl: "https://im-ai-bank-hsh2578.vercel.app/api/chat"
+    proxyUrl: "https://im-ai-bank-demo.vercel.app/api/chat"
   };</script>
   <script src="config.local.js" onerror="console.info('config.local.js 없음 → 배포(proxy) 모드')"></script>
 

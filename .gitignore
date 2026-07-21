@@ -13,3 +13,6 @@ Thumbs.db
 
 # 로컬 서버 캐시
 __pycache__/
+
+.vercel
+.env*
