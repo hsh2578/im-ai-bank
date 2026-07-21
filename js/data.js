@@ -94,7 +94,7 @@ const BANK_DATA = {
 
   // 목적별 서류 세트 (익숙지 않은 상황 → 뭐가 필요한지 묶어서 안내)
   documentSets: [
-    { purpose: "종부세", label: "종합부동산세 납부", docs: ["doc_balance"], note: "국세라 납세증명서는 홈택스에서, 은행에선 잔액증명서를 떼면 돼요." },
+    { purpose: "종부세", label: "종합부동산세", docs: ["doc_balance"], note: "종합부동산세는 홈택스 고지서로 납부하시면 되고, 은행에서 따로 떼야 하는 서류는 없어요. 다만 재산·잔액 증빙이 필요하시면 예금잔액증명서를 발급해드릴 수 있어요." },
     { purpose: "연말정산", label: "연말정산 소득공제", docs: ["doc_pay"], note: "주택청약·연금저축 납입증명서가 소득공제용으로 쓰여요." },
     { purpose: "소득증빙", label: "재직·소득 증빙", docs: ["doc_trans"], note: "급여 입금 내역이 담긴 거래내역확인서를 회사에 제출하면 돼요." },
     { purpose: "대출증빙", label: "대출 관련 제출", docs: ["doc_balance", "doc_loan"], note: "잔액증명서와 부채증명서 둘 다 필요할 수 있어요." },
